@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.css') }}">
+    <title>RECIPE</title>
+</head>
+<body class="bg-dark">
+    <div class="container bg-light mt-5 px-5 py-5">
+                <h1>Welcome, {{session['first_name']}}!</h1>
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h2>Recipe: {{ recipe.name }} </h2>
+                        <p>Posted by: {{ recipe.creator.first_name|capitalize }}</p>
+                    </div>
+                    <div class="card-body">
+                        <p>Description: {{ recipe.description }}</p>
+                        {% if recipe.under_30 == 0 %}
+                        <p>Under 30 Minutes: No</p>
+                        {% else %}
+                        <p>Under 30 Minutes: Yes</p>
+                        {% endif %}
+                        <p>Instructions: {{ recipe.instructions }}</p>
+                        <p>Date Made: {{ recipe.cooked_date }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p><a href="/recipes">Back to Recipes</a></p>
+                        <p><a href="/logout">Logout</a></p>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
