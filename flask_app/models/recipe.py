@@ -5,7 +5,7 @@ from flask import flash
 import re
 
 class Recipe:
-    def __init__ (self,data:dict) -> object:
+    def __init__ (self,data):
         self.id = data['id']
         self.user_id = data['user_id']
         self.name = data['name']
@@ -18,7 +18,7 @@ class Recipe:
         self.creator = None
 
     @staticmethod
-    def parse_recipe_data(data:dict) -> dict:
+    def parse_recipe_data(data):
         '''This method will parse the data from the registration form and return it with a bcrypted password'''
         parsed_data = {
             'user_id': data.get('user_id'),
@@ -32,7 +32,7 @@ class Recipe:
         return parsed_data
 
     @staticmethod
-    def parse_recipe_update(data:dict) -> dict:
+    def parse_recipe_update(data):
         '''This method will parse the data from the registration form and return it with a bcrypted password'''
         parsed_data = {
             'user_id': data.get('user_id'),
@@ -47,7 +47,7 @@ class Recipe:
         return parsed_data
 
     @staticmethod
-    def validate_recipe_data(data:dict) -> dict:
+    def validate_recipe_data(data):
         is_valid = True
 
         if data['user_id'] == None:
@@ -77,7 +77,7 @@ class Recipe:
         return is_valid
 
     @classmethod
-    def get_all(cls:object) -> list:
+    def get_all(cls):
         query = '''
         SELECT * FROM recipes;
         '''
@@ -91,7 +91,7 @@ class Recipe:
         return all_recipes
     
     @classmethod
-    def get_one(cls:object, data:dict) -> object:
+    def get_one(cls:object, data):
         query = '''
         SELECT * FROM recipes WHERE id = %(id)s;
         '''
@@ -104,7 +104,7 @@ class Recipe:
         return cls(result[0])
 
     @classmethod
-    def add_recipe(cls, data:dict) -> None:
+    def add_recipe(cls, data):
         query = '''
         INSERT INTO
         recipes ( name, description, instructions, cooked_date, under_30, user_id)
@@ -114,7 +114,7 @@ class Recipe:
         return connectToMySQL('recipes').query_db(query, data)
 
     @classmethod
-    def update(cls,data:dict) -> None:
+    def update(cls,data):
         query = '''
         UPDATE recipes
         SET
@@ -128,14 +128,14 @@ class Recipe:
         return connectToMySQL('recipes').query_db(query, data)
     
     @classmethod
-    def delete(cls, data:dict) -> None:
+    def delete(cls, data):
         query = '''
         DELETE FROM recipes WHERE id = %(id)s;
         '''
         return connectToMySQL('recipes').query_db(query, data)
 
     @classmethod
-    def get_all_recipes_with_creator(cls) -> list:
+    def get_all_recipes_with_creator(cls):
         query = '''
         SELECT * FROM recipes
         JOIN users ON recipes.user_id = users.id;
@@ -162,7 +162,7 @@ class Recipe:
         return all_recipes
     
     @classmethod
-    def get_one_recipe_with_creator(cls, data:dict) -> object:
+    def get_one_recipe_with_creator(cls, data):
         query = '''
         SELECT * FROM recipes
         JOIN users ON recipes.user_id = users.id
