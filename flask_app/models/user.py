@@ -10,7 +10,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 PASSWORD_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
 
 class User:
-    def __init__ (self, data:dict)-> None:
+    def __init__ (self, data):
         self.id = data['id']
         self.first_name = data['first_name']
         self.last_name = data['last_name']
@@ -23,7 +23,7 @@ class User:
     # STATIC METHODS
 
     @staticmethod
-    def validate_registration(user:dict) -> dict:
+    def validate_registration(user):
         is_valid = True
 
         if len(user['first_name']) < 3:
@@ -53,7 +53,7 @@ class User:
         return is_valid
     
     @staticmethod
-    def parse_registration_data(data:dict) -> dict:
+    def parse_registration_data(data):
         '''This method will parse the data from the registration form and return it with a bcrypted password'''
         parsed_data = {
             'first_name': data.get('first_name'),
@@ -67,7 +67,7 @@ class User:
     # CLASS METHODS
 
     @classmethod
-    def get_user_email(cls, data:dict) -> object:
+    def get_user_email(cls, data):
         query = '''
         SELECT * FROM users WHERE email = %(email)s;
         '''
@@ -79,7 +79,7 @@ class User:
 
         return user
 
-    def check_password(cls, data)  -> object:
+    def check_password(cls, data):
         query = '''
         SELECT %(email)s FROM users WHERE password = %(password)s;
         '''
@@ -93,7 +93,7 @@ class User:
         return user
 
     @classmethod
-    def save(cls, data:dict)  -> object:
+    def save(cls, data):
         query='''
         INSERT INTO users (first_name, last_name, email, password)
         VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s);
@@ -102,7 +102,7 @@ class User:
         return connectToMySQL('recipes').query_db(query, data)
     
     @classmethod
-    def get_user_by_id(cls, data:dict)  -> object:
+    def get_user_by_id(cls, data):
         query='''
         SELECT * FROM users WHERE users.id = %(id)s;
         '''
@@ -114,7 +114,7 @@ class User:
 
         return user
     
-    def get_all(cls) -> list:
+    def get_all(cls):
         query='''
         SELECT * FROM users;
         '''
